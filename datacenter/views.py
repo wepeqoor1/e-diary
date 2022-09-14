@@ -15,12 +15,9 @@ def get_iso_week_from_params(get_params):
     if week_number.isdigit() and year_number.isdigit():
         week_number = int(week_number)
         year_number = int(year_number)
-        asked_iso_week = Week(year_number, week_number)
+        return Week(year_number, week_number)
     else:
-        # default weekday for that dvmn lesson
-        current_iso_week = Week(2019, 1)
-        asked_iso_week = current_iso_week
-    return asked_iso_week
+        return Week(2019, 1)
 
 
 def format_day_title(date):
@@ -48,7 +45,7 @@ def view_classes(request):
     serialized_classes = {
         class_year: list(classes) for class_year, classes in classes_groups
     }
-    unique_class_letters = sorted(set([letter for year, letter in classes]))
+    unique_class_letters = sorted({letter for year, letter in classes})
     context = {
         'unique_class_letters': unique_class_letters,
         'classes': serialized_classes
